@@ -3,22 +3,22 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "enterpriseScaleCompanyPrefix": {
-      "value": "contoso"
+      "value": "MIXTCorp"
     },
     "platformManagementGroup": {
-      "value": "contoso-platform"
+      "value": "platform"
     },
     "IdentityManagementGroup": {
-      "value": "contoso-identity"
+      "value": "identity"
     },
     "managementManagementGroup": {
-      "value": "contoso-management"
+      "value": "management"
     },
     "connectivityManagementGroup": {
-      "value": "contoso-connectivity"
+      "value": "connectivity"
     },
     "LandingZoneManagementGroup": {
-      "value": "contoso-landingzones"
+      "value": "landingzones"
     },
     "enableAMBAConnectivity": {
       "value": "Yes"
@@ -72,13 +72,13 @@
       "value": "id-amba-prod-001"
     },
     "managementSubscriptionId": {
-      "value": ""
+      "value": "47968da5-6ea1-48cc-85b8-1800c6cba0de"
     },
     "ALZMonitorResourceGroupName": {
-      "value": "rg-amba-monitoring-001"
+      "value": "rg-sbx-ngw-mon-uks-001"
     },
     "ALZMonitorResourceGroupLocation": {
-      "value": "eastus"
+      "value": "uksouth"
     },
     "ALZMonitorResourceGroupTags": {
       "value": {
@@ -97,7 +97,7 @@
       ]
     },
     "ALZMonitorActionGroupEmail": {
-      "value": []
+      "value": ["simon.day@telefonicatech.uk"]
     },
     "ALZLogicappResourceId": {
       "value": ""
@@ -106,7 +106,7 @@
       "value": ""
     },
     "ALZArmRoleId": {
-      "value": []
+      "value": ["Owner"]
     },
     "ALZEventHubResourceId": {
       "value": []
