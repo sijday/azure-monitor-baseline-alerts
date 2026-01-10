@@ -6,19 +6,19 @@
       "value": "MIXTCorp"
     },
     "platformManagementGroup": {
-      "value": "platform"
+      "value": "Platform"
     },
     "IdentityManagementGroup": {
-      "value": "identity"
+      "value": "Identity"
     },
     "managementManagementGroup": {
-      "value": "management"
+      "value": "Management"
     },
     "connectivityManagementGroup": {
-      "value": "connectivity"
+      "value": "Connectivity"
     },
     "LandingZoneManagementGroup": {
-      "value": "landingzones"
+      "value": "LandingZones"
     },
     "enableAMBAConnectivity": {
       "value": "Yes"
