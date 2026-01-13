@@ -721,7 +721,8 @@
     "cuaidRecoveryServices": "b45e8b7b-e0a2-4af4-b3af-8b2af4020dcc",
     "cuaidStorage": "c0eb5ea9-033b-4c1b-be71-b3088e7a2e2b",
     "cuaidVM": "3ace674d-9502-4f4a-98ba-a2277c01ccf8",
-    "cuaidWeb": "a80aedbd-3157-4335-94c7-7e7db459a647"
+    "cuaidWeb": "a80aedbd-3157-4335-94c7-7e7db459a647",
+    "cuaidAPI": "e7c15988-4e8f-4c3a-9b24-7f8d5a6e9c4d"
   },
   "resources": [
     // MARK: Deploy RG
