@@ -33,4 +33,4 @@ jobs:
         id: deploy_amba
         shell: bash
         run: |
-          az deployment mg create --template-file ./patterns/alz/alzArm.json --location ${{ env.Location }} --management-group-id ${{ env.ManagementGroupPrefix }} --parameters ./patterns/alz/alzArm.param.json
+          az deployment mg create --template ./patterns/alz/alzArm.json --location ${{ env.Location }} --management-group-id ${{ env.ManagementGroupPrefix }} --parameters ./patterns/alz/alzArm.param.json
