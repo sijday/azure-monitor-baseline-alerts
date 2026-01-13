@@ -632,8 +632,8 @@
       "policyDefinitionsServiceHealth": "[uri(deployment().properties.templateLink.uri, 'policyDefinitions/policies-ServiceHealth.json')]",
       "policyDefinitionsStorage": "[uri(deployment().properties.templateLink.uri, 'policyDefinitions/policies-Storage.json')]",
       "policyDefinitionsWeb": "[uri(deployment().properties.templateLink.uri, 'policyDefinitions/policies-Web.json')]",
+      "policyDefinitionsAPIManagement": "[uri(deployment().properties.templateLink.uri, 'policyDefinitions/policySets-APIManagement.json')]",
       "policySetDefinitions": "[uri(deployment().properties.templateLink.uri, 'policyDefinitions/policySets.json')]",
-      "policySetDefinitionsAPIManagement": "[uri(deployment().properties.templateLink.uri, 'policyDefinitions/policySets-APIManagement.json')]",
       "AMBAAPIManagementInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-APIManagementAssignment.json')]",
       "AMBAConnectivityInitiative": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-ConnectivityAssignment.json')]",
       "AMBAConnectivityInitiative_2": "[uri(deployment().properties.templateLink.uri, 'policyAssignments/DINE-ConnectivityAssignment2.json')]",
@@ -1096,7 +1096,7 @@
         "mode": "Incremental",
         "templateLink": {
           "contentVersion": "1.0.0.0",
-          "uri": "[variables('deploymentUris').policyDefinitionsWeb]"
+          "uri": "[variables('deploymentUris').policyDefinitionsAPIManagement]"
         },
         "parameters": {
           "topLevelManagementGroupPrefix": {
