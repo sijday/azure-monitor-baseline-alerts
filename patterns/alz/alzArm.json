@@ -1082,6 +1082,7 @@
           }
         }
       }
+    },
     // APIManagement Policy Definitions
     {
       "type": "Microsoft.Resources/deployments",
