@@ -59,7 +59,7 @@
     "enableAMBAWeb": {
       "value": "Yes"
     },
-    "enableAMBAAPI": {
+    "enableAPIManagement": {
       "value": "Yes"
     },
     "telemetryOptOut": {
