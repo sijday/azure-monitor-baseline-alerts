@@ -1,0 +1,821 @@
+{
+  "type": "Microsoft.Authorization/policySetDefinitions",
+  "apiVersion": "2021-06-01",
+  "name": "Alerting-APIM",
+  "properties": {
+    "displayName": "Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) for API Management",
+    "description": "This initiative deploys Azure Monitor Baseline Alerts (AMBA-ALZ) to monitor API Management services.",
+    "metadata": {
+      "version": "1.0.0-preview",
+      "category": "Monitoring",
+      "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
+      "alzCloudEnvironments": [
+        "AzureCloud"
+      ],
+      "_deployed_by_amba": true
+    },
+    "parameters": {
+      "ALZMonitorResourceGroupName": {
+        "type": "String",
+        "defaultValue": "rg-amba-monitoring-001",
+        "metadata": {
+          "displayName": "ALZ Monitor Resource Group Name",
+          "description": "Name of the resource group where the ALZ Monitor resources will be deployed"
+        }
+      },
+      "ALZMonitorResourceGroupTags": {
+        "type": "Object",
+        "defaultValue": {
+          "_deployed_by_alz_monitor": true
+        },
+        "metadata": {
+          "displayName": "ALZ Monitor Resource Group Tags",
+          "description": "Tags for the resource group where the ALZ Monitor resources will be deployed"
+        }
+      },
+      "ALZMonitorResourceGroupLocation": {
+        "type": "String",
+        "defaultValue": "centralus",
+        "metadata": {
+          "displayName": "ALZ Monitor Resource Group Location",
+          "description": "Location of the resource group where the ALZ Monitor resources will be deployed"
+        }
+      },
+      "ALZMonitorDisableTagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag name",
+          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": "MonitorDisable"
+      },
+      "ALZMonitorDisableTagValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag values(s)",
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ]
+      },
+      "APIMBackendDurationAlertSeverity": {
+        "type": "String",
+        "defaultValue": "3",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "APIM Backend Duration Alert Severity",
+          "description": "Severity of the alert for API Management Backend Duration"
+        }
+      },
+      "APIMBackendDurationWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "APIM Backend Duration Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "APIMBackendDurationEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "APIM Backend Duration Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "APIMBackendDurationAutoMitigate": {
+        "type": "string",
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "metadata": {
+          "displayName": "APIM Backend Duration Auto Mitigate",
+          "description": "Auto Mitigate for the alert"
+        }
+      },
+      "APIMBackendDurationPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "APIM Backend Duration Policy Effect",
+          "description": "Policy effect for the alert"
+        }
+      },
+      "APIMBackendDurationAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "metadata": {
+          "displayName": "APIM Backend Duration Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "APIMBackendDurationThreshold": {
+        "type": "string",
+        "defaultValue": "10000",
+        "metadata": {
+          "displayName": "APIM Backend Duration Threshold (ms)",
+          "description": "Threshold for the alert in milliseconds"
+        }
+      },
+      "APIMCapacityAlertSeverity": {
+        "type": "String",
+        "defaultValue": "3",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "APIM Capacity Alert Severity",
+          "description": "Severity of the alert for API Management Capacity"
+        }
+      },
+      "APIMCapacityWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "APIM Capacity Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "APIMCapacityEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "APIM Capacity Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "APIMCapacityAutoMitigate": {
+        "type": "string",
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "metadata": {
+          "displayName": "APIM Capacity Auto Mitigate",
+          "description": "Auto Mitigate for the alert"
+        }
+      },
+      "APIMCapacityPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "APIM Capacity Policy Effect",
+          "description": "Policy effect for the alert"
+        }
+      },
+      "APIMCapacityAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "metadata": {
+          "displayName": "APIM Capacity Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "APIMCapacityThreshold": {
+        "type": "string",
+        "defaultValue": "80",
+        "metadata": {
+          "displayName": "APIM Capacity Threshold (%)",
+          "description": "Threshold for the alert as percentage"
+        }
+      },
+      "APIMFailedRequestsAlertSeverity": {
+        "type": "String",
+        "defaultValue": "3",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "APIM Failed Requests Alert Severity",
+          "description": "Severity of the alert for API Management Failed Requests"
+        }
+      },
+      "APIMFailedRequestsWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "APIM Failed Requests Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "APIMFailedRequestsEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "APIM Failed Requests Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "APIMFailedRequestsAutoMitigate": {
+        "type": "string",
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "metadata": {
+          "displayName": "APIM Failed Requests Auto Mitigate",
+          "description": "Auto Mitigate for the alert"
+        }
+      },
+      "APIMFailedRequestsPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "APIM Failed Requests Policy Effect",
+          "description": "Policy effect for the alert"
+        }
+      },
+      "APIMFailedRequestsAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "metadata": {
+          "displayName": "APIM Failed Requests Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "APIMFailedRequestsThreshold": {
+        "type": "string",
+        "defaultValue": "1",
+        "metadata": {
+          "displayName": "APIM Failed Requests Threshold",
+          "description": "Threshold for the alert"
+        }
+      },
+      "APIMRequestsAlertSeverity": {
+        "type": "String",
+        "defaultValue": "3",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "APIM Requests Alert Severity",
+          "description": "Severity of the alert for API Management Requests"
+        }
+      },
+      "APIMRequestsWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "APIM Requests Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "APIMRequestsEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "APIM Requests Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "APIMRequestsAutoMitigate": {
+        "type": "string",
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "metadata": {
+          "displayName": "APIM Requests Auto Mitigate",
+          "description": "Auto Mitigate for the alert"
+        }
+      },
+      "APIMRequestsPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "APIM Requests Policy Effect",
+          "description": "Policy effect for the alert"
+        }
+      },
+      "APIMRequestsAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "metadata": {
+          "displayName": "APIM Requests Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "APIMRequestsThreshold": {
+        "type": "string",
+        "defaultValue": "1",
+        "metadata": {
+          "displayName": "APIM Requests Threshold",
+          "description": "Threshold for the alert"
+        }
+      },
+      "APIMTotalRequestsAlertSeverity": {
+        "type": "String",
+        "defaultValue": "3",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "APIM Total Requests Alert Severity",
+          "description": "Severity of the alert for API Management Total Requests"
+        }
+      },
+      "APIMTotalRequestsWindowSize": {
+        "type": "string",
+        "defaultValue": "PT1H",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "APIM Total Requests Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "APIMTotalRequestsEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "APIM Total Requests Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "APIMTotalRequestsAutoMitigate": {
+        "type": "string",
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "metadata": {
+          "displayName": "APIM Total Requests Auto Mitigate",
+          "description": "Auto Mitigate for the alert"
+        }
+      },
+      "APIMTotalRequestsPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "APIM Total Requests Policy Effect",
+          "description": "Policy effect for the alert"
+        }
+      },
+      "APIMTotalRequestsAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "metadata": {
+          "displayName": "APIM Total Requests Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "APIMTotalRequestsThreshold": {
+        "type": "string",
+        "defaultValue": "0",
+        "metadata": {
+          "displayName": "APIM Total Requests Threshold",
+          "description": "Threshold for the alert"
+        }
+      },
+      "APIMUnauthorizedRequestsAlertSeverity": {
+        "type": "String",
+        "defaultValue": "3",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "APIM Unauthorized Requests Alert Severity",
+          "description": "Severity of the alert for API Management Unauthorized Requests"
+        }
+      },
+      "APIMUnauthorizedRequestsWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "APIM Unauthorized Requests Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "APIMUnauthorizedRequestsEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "APIM Unauthorized Requests Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "APIMUnauthorizedRequestsAutoMitigate": {
+        "type": "string",
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "metadata": {
+          "displayName": "APIM Unauthorized Requests Auto Mitigate",
+          "description": "Auto Mitigate for the alert"
+        }
+      },
+      "APIMUnauthorizedRequestsPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "APIM Unauthorized Requests Policy Effect",
+          "description": "Policy effect for the alert"
+        }
+      },
+      "APIMUnauthorizedRequestsAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "metadata": {
+          "displayName": "APIM Unauthorized Requests Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "APIMUnauthorizedRequestsThreshold": {
+        "type": "string",
+        "defaultValue": "1",
+        "metadata": {
+          "displayName": "APIM Unauthorized Requests Threshold",
+          "description": "Threshold for the alert"
+        }
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "ALZ_APIMBackendDuration",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_APIM_BackendDuration_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('APIMBackendDurationAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('APIMBackendDurationWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('APIMBackendDurationEvaluationFrequency')]"
+          },
+          "autoMitigate": {
+            "value": "[[parameters('APIMBackendDurationAutoMitigate')]"
+          },
+          "effect": {
+            "value": "[[parameters('APIMBackendDurationPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('APIMBackendDurationAlertState')]"
+          },
+          "threshold": {
+            "value": "[[parameters('APIMBackendDurationThreshold')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_APIMCapacity",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_APIM_Service_Capacity_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('APIMCapacityAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('APIMCapacityWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('APIMCapacityEvaluationFrequency')]"
+          },
+          "autoMitigate": {
+            "value": "[[parameters('APIMCapacityAutoMitigate')]"
+          },
+          "effect": {
+            "value": "[[parameters('APIMCapacityPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('APIMCapacityAlertState')]"
+          },
+          "threshold": {
+            "value": "[[parameters('APIMCapacityThreshold')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_APIMFailedRequests",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_APIM_Service_FailedRequests_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('APIMFailedRequestsAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('APIMFailedRequestsWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('APIMFailedRequestsEvaluationFrequency')]"
+          },
+          "autoMitigate": {
+            "value": "[[parameters('APIMFailedRequestsAutoMitigate')]"
+          },
+          "effect": {
+            "value": "[[parameters('APIMFailedRequestsPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('APIMFailedRequestsAlertState')]"
+          },
+          "threshold": {
+            "value": "[[parameters('APIMFailedRequestsThreshold')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_APIMRequests",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_APIM_Service_Requests_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('APIMRequestsAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('APIMRequestsWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('APIMRequestsEvaluationFrequency')]"
+          },
+          "autoMitigate": {
+            "value": "[[parameters('APIMRequestsAutoMitigate')]"
+          },
+          "effect": {
+            "value": "[[parameters('APIMRequestsPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('APIMRequestsAlertState')]"
+          },
+          "threshold": {
+            "value": "[[parameters('APIMRequestsThreshold')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_APIMTotalRequests",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_APIM_Service_TotalRequests_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('APIMTotalRequestsAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('APIMTotalRequestsWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('APIMTotalRequestsEvaluationFrequency')]"
+          },
+          "autoMitigate": {
+            "value": "[[parameters('APIMTotalRequestsAutoMitigate')]"
+          },
+          "effect": {
+            "value": "[[parameters('APIMTotalRequestsPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('APIMTotalRequestsAlertState')]"
+          },
+          "threshold": {
+            "value": "[[parameters('APIMTotalRequestsThreshold')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "ALZ_APIMUnauthorizedRequests",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_APIM_Service_UnauthorizedRequests_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('APIMUnauthorizedRequestsAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('APIMUnauthorizedRequestsWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('APIMUnauthorizedRequestsEvaluationFrequency')]"
+          },
+          "autoMitigate": {
+            "value": "[[parameters('APIMUnauthorizedRequestsAutoMitigate')]"
+          },
+          "effect": {
+            "value": "[[parameters('APIMUnauthorizedRequestsPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('APIMUnauthorizedRequestsAlertState')]"
+          },
+          "threshold": {
+            "value": "[[parameters('APIMUnauthorizedRequestsThreshold')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      }
+    ],
+    "policyType": "Custom",
+    "policyDefinitionGroups": null
+  }
+}

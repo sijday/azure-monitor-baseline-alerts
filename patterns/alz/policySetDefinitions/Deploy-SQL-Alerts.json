@@ -1,0 +1,196 @@
+{
+  "type": "Microsoft.Authorization/policySetDefinitions",
+  "apiVersion": "2021-06-01",
+  "name": "Alerting-SQL",
+  "properties": {
+    "displayName": "Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) for SQL",
+    "description": "This initiative deploys Azure Monitor Baseline Alerts (AMBA-ALZ) to monitor SQL Database Services.",
+    "metadata": {
+      "version": "1.0.0-preview",
+      "category": "Monitoring",
+      "source": "https://github.com/Azure/azure-monitor-baseline-alerts/",
+      "alzCloudEnvironments": [
+        "AzureCloud"
+      ],
+      "_deployed_by_amba": true
+    },
+    "parameters": {
+      "ALZMonitorResourceGroupName": {
+        "type": "String",
+        "defaultValue": "rg-amba-monitoring-001",
+        "metadata": {
+          "displayName": "ALZ Monitor Resource Group Name",
+          "description": "Name of the resource group where the ALZ Monitor resources will be deployed"
+        }
+      },
+      "ALZMonitorResourceGroupTags": {
+        "type": "Object",
+        "defaultValue": {
+          "_deployed_by_alz_monitor": true
+        },
+        "metadata": {
+          "displayName": "ALZ Monitor Resource Group Tags",
+          "description": "Tags for the resource group where the ALZ Monitor resources will be deployed"
+        }
+      },
+      "ALZMonitorResourceGroupLocation": {
+        "type": "String",
+        "defaultValue": "centralus",
+        "metadata": {
+          "displayName": "ALZ Monitor Resource Group Location",
+          "description": "Location of the resource group where the ALZ Monitor resources will be deployed"
+        }
+      },
+      "ALZMonitorDisableTagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag name",
+          "description": "Tag name used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": "MonitorDisable"
+      },
+      "ALZMonitorDisableTagValues": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "ALZ Monitoring disabled tag values(s)",
+          "description": "Tag value(s) used to disable monitoring at the resource level. Set to true if monitoring should be disabled."
+        },
+        "defaultValue": [
+          "true",
+          "Test",
+          "Dev",
+          "Sandbox"
+        ]
+      },
+      "SqlServersDatabasesCpuUsedAlertSeverity": {
+        "type": "String",
+        "defaultValue": "3",
+        "allowedValues": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "metadata": {
+          "displayName": "SQL Servers Databases CPU Used Alert Severity",
+          "description": "Severity of the alert for SQL Database CPU Used"
+        }
+      },
+      "SqlServersDatabasesCpuUsedWindowSize": {
+        "type": "string",
+        "defaultValue": "PT5M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H",
+          "PT6H",
+          "PT12H",
+          "P1D"
+        ],
+        "metadata": {
+          "displayName": "SQL Servers Databases CPU Used Window Size",
+          "description": "Window size for the alert"
+        }
+      },
+      "SqlServersDatabasesCpuUsedEvaluationFrequency": {
+        "type": "string",
+        "defaultValue": "PT1M",
+        "allowedValues": [
+          "PT1M",
+          "PT5M",
+          "PT15M",
+          "PT30M",
+          "PT1H"
+        ],
+        "metadata": {
+          "displayName": "SQL Servers Databases CPU Used Evaluation Frequency",
+          "description": "Evaluation frequency for the alert"
+        }
+      },
+      "SqlServersDatabasesCpuUsedAutoMitigate": {
+        "type": "string",
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "metadata": {
+          "displayName": "SQL Servers Databases CPU Used Auto Mitigate",
+          "description": "Auto Mitigate for the alert"
+        }
+      },
+      "SqlServersDatabasesCpuUsedPolicyEffect": {
+        "type": "string",
+        "defaultValue": "deployIfNotExists",
+        "allowedValues": [
+          "deployIfNotExists",
+          "disabled"
+        ],
+        "metadata": {
+          "displayName": "SQL Servers Databases CPU Used Policy Effect",
+          "description": "Policy effect for the alert, deployIfNotExists will deploy the alert if it does not exist"
+        }
+      },
+      "SqlServersDatabasesCpuUsedAlertState": {
+        "type": "string",
+        "defaultValue": "true",
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "metadata": {
+          "displayName": "SQL Servers Databases CPU Used Alert State",
+          "description": "Alert state for the alert"
+        }
+      },
+      "SqlServersDatabasesCpuUsedThreshold": {
+        "type": "string",
+        "defaultValue": "80",
+        "metadata": {
+          "displayName": "SQL Servers Databases CPU Used Threshold",
+          "description": "Threshold for the alert"
+        }
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "ALZ_SqlServersDatabasesCpuUsed",
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/contoso/providers/Microsoft.Authorization/policyDefinitions/Deploy_Sql_servers_databases_cpu_used_Alert",
+        "parameters": {
+          "severity": {
+            "value": "[[parameters('SqlServersDatabasesCpuUsedAlertSeverity')]"
+          },
+          "windowSize": {
+            "value": "[[parameters('SqlServersDatabasesCpuUsedWindowSize')]"
+          },
+          "evaluationFrequency": {
+            "value": "[[parameters('SqlServersDatabasesCpuUsedEvaluationFrequency')]"
+          },
+          "autoMitigate": {
+            "value": "[[parameters('SqlServersDatabasesCpuUsedAutoMitigate')]"
+          },
+          "effect": {
+            "value": "[[parameters('SqlServersDatabasesCpuUsedPolicyEffect')]"
+          },
+          "enabled": {
+            "value": "[[parameters('SqlServersDatabasesCpuUsedAlertState')]"
+          },
+          "threshold": {
+            "value": "[[parameters('SqlServersDatabasesCpuUsedThreshold')]"
+          },
+          "MonitorDisableTagName": {
+            "value": "[[parameters('ALZMonitorDisableTagName')]"
+          },
+          "MonitorDisableTagValues": {
+            "value": "[[parameters('ALZMonitorDisableTagValues')]"
+          }
+        }
+      }
+    ],
+    "policyType": "Custom",
+    "policyDefinitionGroups": null
+  }
+}
