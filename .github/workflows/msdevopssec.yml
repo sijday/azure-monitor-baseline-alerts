@@ -1,0 +1,57 @@
+name: Defender for Cloud Security DevOps
+
+on: 
+  push:
+    branches:
+      - task/**
+      - feature/**
+      - dev
+  pull_request:
+     branches:
+       - dev
+       - test
+       - main
+  schedule:
+    - cron: '45 4 * * 3'
+  workflow_dispatch: 
+
+jobs:
+  sample:
+    name: Microsoft Security DevOps
+
+    # Windows and Linux agents are supported
+    runs-on: windows-latest
+
+    permissions:
+      contents: read
+      id-token: write
+      actions: read
+      # Write access for security-events required for  results to appear in the codeQL security alerts tab on GitHub (Requires GHAS)
+      security-events: write
+
+    steps:
+
+      # Checkout your code repository to scan
+    - uses: actions/checkout@v3
+
+      # Run analyzers
+    - name: Run Microsoft Security DevOps
+      uses: microsoft/security-devops-action@latest
+      id: msdo
+      with:
+#       config: './defender/checkov.gdnconfig'
+       categories: 'IaC, code'
+       tools: 'checkov'
+
+      # Upload alerts to the Security tab - required for MSDO results to appear in the codeQL security alerts tab on GitHub (Requires GHAS)
+    - name: Upload alerts to Security tab
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: ${{ steps.msdo.outputs.sarifFile }}
+
+      # Upload alerts file as a workflow artifact - required for MSDO results to appear in the codeQL security alerts tab on GitHub (Requires GHAS)
+    - name: Upload alerts file as a workflow artifact
+      uses: actions/upload-artifact@v4
+      with:  
+        name: alerts
+        path: ${{ steps.msdo.outputs.sarifFile }}
