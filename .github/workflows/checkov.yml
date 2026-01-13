@@ -2,13 +2,13 @@ name: checkov
 
 # Controls when the workflow will run
 on: 
-    push:
-      branches: 
+  #  push:
+  #    branches: 
   #      - task/**
   #      - feature/**
-        - dev
-        - test
-        - main        
+  #      - dev
+  #      - test
+  #      - main        
   #  pull_request:
   #     branches:
   #       - dev
