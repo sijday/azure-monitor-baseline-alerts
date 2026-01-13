@@ -34,7 +34,7 @@
       "deployAMBAAPIManagement": "[concat('/providers/Microsoft.Management/managementGroups/', parameters('topLevelManagementGroupPrefix'), '/providers/Microsoft.Authorization/policySetDefinitions/Alerting-APIManagement')]"
     },
     "policyAssignmentNames": {
-      "ambaAPIManagement": "Deploy-AMBA-APIManagement",
+      "ambaAPIManagement": "Deploy-AMBA-APIM",
       "description": "This initiative deploys Azure Monitor Baseline Alerts (AMBA-ALZ) to monitor API Management Services.",
       "displayName": "Deploy Azure Monitor Baseline Alerts (AMBA-ALZ) for API Management"
     },
