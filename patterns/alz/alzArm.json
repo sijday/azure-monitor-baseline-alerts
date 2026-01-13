@@ -194,7 +194,7 @@
         "description": "Assign Web initiative"
       }
     },
-    "enableAMBAAPI": {
+    "enableAPIManagement": {
       "type": "string",
       "defaultValue": "Yes",
       "allowedValues": [
