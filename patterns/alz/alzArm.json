@@ -1455,7 +1455,7 @@
         "mode": "Incremental",
         "templateLink": {
           "contentVersion": "1.0.0.0",
-          "uri": "[variables('deploymentUris').APIManagementInitiative]"
+          "uri": "[variables('deploymentUris').AMBAAPIManagementInitiative]"
         },
         "parameters": {
           "topLevelManagementGroupPrefix": {
