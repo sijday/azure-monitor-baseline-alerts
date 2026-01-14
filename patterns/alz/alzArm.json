@@ -703,7 +703,6 @@
       "pidCuaStorageDeploymentName": "[take(concat('amba-pid-Storage-', variables('cuaidStorage'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
       "pidCuaVMDeploymentName": "[take(concat('amba-pid-VM-', variables('cuaidVM'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
       "pidCuaWebDeploymentName": "[take(concat('amba-pid-Web-', variables('cuaidWeb'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]",
-     // "pidCuaAPIDeploymentName": "[take(concat('amba-pid-API-', variables('cuaidAPI'), '-' , uniqueString(deployment().location, parameters('enterpriseScaleCompanyPrefix'), parameters('currentDateTimeUtcNow'))), 64)]"
      },
 
     // Declaring PIDs
@@ -722,7 +721,7 @@
     "cuaidStorage": "c0eb5ea9-033b-4c1b-be71-b3088e7a2e2b",
     "cuaidVM": "3ace674d-9502-4f4a-98ba-a2277c01ccf8",
     "cuaidWeb": "a80aedbd-3157-4335-94c7-7e7db459a647",
-    //"cuaidAPI": "e7c15988-4e8f-4c3a-9b24-7f8d5a6e9c4d"
+
   },
   "resources": [
     // MARK: Deploy RG
